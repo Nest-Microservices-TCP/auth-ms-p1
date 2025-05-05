@@ -46,6 +46,11 @@ lerna-debug.log*
 .temp
 .tmp
 
+# proto types generated
+src/grpc/**/*.pb.ts
+proto-files/
+proto/
+
 # Runtime data
 pids
 *.pid
