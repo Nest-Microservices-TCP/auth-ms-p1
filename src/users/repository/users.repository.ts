@@ -41,8 +41,9 @@ export class UsersRepository implements IUsersRepository {
   }
 
   create(request: Partial<User>): User {
-    throw new Error('Method not implemented.');
+    return this.usersRepository.create(request);
   }
+
   save(request: CreateRateRequest): Promise<User> {
     throw new Error('Method not implemented.');
   }
