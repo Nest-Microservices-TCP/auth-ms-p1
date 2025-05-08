@@ -1,6 +1,6 @@
 import { IBaseRepository } from 'src/common/repository';
-import { CreateRateRequest } from 'src/grpc/rooms/rates.pb';
+import { CreateUserRequest } from 'src/grpc/auth/users.pb';
 import { User } from 'src/users/entity/user.entity';
 
 export interface IUsersRepository
-  extends IBaseRepository<User, CreateRateRequest> {}
+  extends IBaseRepository<User, CreateUserRequest> {}
