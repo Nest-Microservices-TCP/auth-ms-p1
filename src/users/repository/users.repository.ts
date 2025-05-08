@@ -48,12 +48,17 @@ export class UsersRepository implements IUsersRepository {
     return this.usersRepository.save(request);
   }
 
-  update(
+  async update(
     conditions: FindOptionsWhere<User>,
     request: Partial<User>,
   ): Promise<User> {
-    throw new Error('Method not implemented.');
+    const user = await this.usersRepository.findOne({ where: conditions });
+
+    Object.assign(user, request);
+
+    return this.usersRepository.save(user);
   }
+
   remove(id: string): Promise<DeleteResultResponse> {
     throw new Error('Method not implemented.');
   }
