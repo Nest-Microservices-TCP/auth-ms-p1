@@ -4,6 +4,7 @@ import { QueryRunner, FindOptionsWhere, Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { IUsersRepository } from './interfaces/users.repository.interface';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EntityNotFoundException } from 'src/common/exceptions/custom';
 
 export class UsersRepository implements IUsersRepository {
   private usersRepository: Repository<User>;
@@ -27,9 +28,18 @@ export class UsersRepository implements IUsersRepository {
     return this.usersRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
-    throw new Error('Method not implemented.');
+  async findOne(user_id: string): Promise<User> {
+    const user = await this.usersRepository.findOne({
+      where: { user_id },
+    });
+
+    if (!user) {
+      throw new EntityNotFoundException('user');
+    }
+
+    return user;
   }
+
   create(request: Partial<User>): User {
     throw new Error('Method not implemented.');
   }
