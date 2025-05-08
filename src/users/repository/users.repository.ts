@@ -24,8 +24,9 @@ export class UsersRepository implements IUsersRepository {
   }
 
   find(): Promise<User[]> {
-    throw new Error('Method not implemented.');
+    return this.usersRepository.find();
   }
+
   findOne(id: string): Promise<User> {
     throw new Error('Method not implemented.');
   }
