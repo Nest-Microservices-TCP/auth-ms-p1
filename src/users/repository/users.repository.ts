@@ -16,7 +16,11 @@ export class UsersRepository implements IUsersRepository {
   }
 
   setQueryRunner(queryRunner: QueryRunner): void {
-    throw new Error('Method not implemented.');
+    if (queryRunner) {
+      this.usersRepository = queryRunner.manager.getRepository(User);
+    } else {
+      this.usersRepository = this.defaultRepository;
+    }
   }
 
   find(): Promise<User[]> {
