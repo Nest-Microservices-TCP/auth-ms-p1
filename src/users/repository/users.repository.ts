@@ -1,10 +1,10 @@
 import { DeleteResultResponse } from 'src/common/dto/response';
-import { CreateRateRequest } from 'src/grpc/rooms/rates.pb';
 import { QueryRunner, FindOptionsWhere, Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { IUsersRepository } from './interfaces/users.repository.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundException } from 'src/common/exceptions/custom';
+import { CreateUserRequest } from 'src/grpc/auth/users.pb';
 
 export class UsersRepository implements IUsersRepository {
   private usersRepository: Repository<User>;
@@ -44,9 +44,10 @@ export class UsersRepository implements IUsersRepository {
     return this.usersRepository.create(request);
   }
 
-  save(request: CreateRateRequest): Promise<User> {
-    throw new Error('Method not implemented.');
+  save(request: CreateUserRequest): Promise<User> {
+    return this.usersRepository.save(request);
   }
+
   update(
     conditions: FindOptionsWhere<User>,
     request: Partial<User>,
