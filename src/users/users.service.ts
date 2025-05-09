@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserRequest, FindOneUserRequest } from 'src/grpc/auth/users.pb';
+import {
+  FindUsersResponse,
+  CreateUserRequest,
+  FindOneUserRequest,
+} from 'src/grpc/auth/users.pb';
 
 import { UsersRepository } from './repository/users.repository';
 
@@ -18,5 +22,11 @@ export class UsersService {
     const { user_id } = request;
 
     return this.usersRepository.findOne(user_id);
+  }
+
+  async find(): Promise<FindUsersResponse> {
+    const users = await this.usersRepository.find();
+
+    return { users };
   }
 }
