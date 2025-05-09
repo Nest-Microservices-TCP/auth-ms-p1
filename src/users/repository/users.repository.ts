@@ -1,10 +1,23 @@
-import { DeleteResultResponse } from 'src/common/dto/response';
-import { QueryRunner, FindOptionsWhere, Repository } from 'typeorm';
-import { User } from '../entity/user.entity';
-import { IUsersRepository } from './interfaces/users.repository.interface';
+import {
+  Repository,
+  QueryRunner,
+  DeleteResult,
+  FindOptionsWhere,
+} from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityNotFoundException } from 'src/common/exceptions/custom';
+
+import {
+  EntityNotFoundException,
+  FailedRemoveException,
+} from 'src/common/exceptions/custom';
+
 import { CreateUserRequest } from 'src/grpc/auth/users.pb';
+
+import { IUsersRepository } from './interfaces/users.repository.interface';
+
+import { User } from '../entity/user.entity';
+
+import { DeleteResultResponse } from 'src/common/dto/response';
 
 export class UsersRepository implements IUsersRepository {
   private usersRepository: Repository<User>;
@@ -59,7 +72,15 @@ export class UsersRepository implements IUsersRepository {
     return this.usersRepository.save(user);
   }
 
-  remove(id: string): Promise<DeleteResultResponse> {
-    throw new Error('Method not implemented.');
+  async remove(user_id: string): Promise<DeleteResultResponse> {
+    await this.findOne(user_id);
+
+    const result: DeleteResult = await this.usersRepository.delete(user_id);
+
+    if (result.affected === 0) {
+      throw new FailedRemoveException('user');
+    }
+
+    return { deleted: true, affected: result.affected };
   }
 }
