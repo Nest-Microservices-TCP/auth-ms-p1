@@ -1,4 +1,5 @@
 import {
+  In,
   Repository,
   QueryRunner,
   DeleteResult,
@@ -51,6 +52,14 @@ export class UsersRepository implements IUsersRepository {
     }
 
     return user;
+  }
+
+  async findByIds(users_ids: string[]): Promise<User[]> {
+    return this.usersRepository.find({
+      where: {
+        user_id: In(users_ids),
+      },
+    });
   }
 
   create(request: Partial<User>): User {
