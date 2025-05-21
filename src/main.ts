@@ -3,7 +3,10 @@ import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
+import { join } from 'path';
 import { envs } from './config';
+
+import { AUTH_USERS_PACKAGE_NAME } from './grpc/auth/users.pb';
 
 async function bootstrap() {
   const logger = new Logger('Auth-MS');
@@ -14,10 +17,10 @@ async function bootstrap() {
       transport: Transport.GRPC,
       options: {
         url: `${envs.host}:${envs.port}`,
-        package: [],
-        protoPath: [],
+        package: [AUTH_USERS_PACKAGE_NAME],
+        protoPath: [join(__dirname, '../proto-files/auth/users.proto')],
         loader: {
-          includeDirs: [],
+          includeDirs: [join(__dirname, '../proto-files')],
           keepCase: true,
           enums: String,
           arrays: true,
