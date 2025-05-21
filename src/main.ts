@@ -1,7 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
+import { envs } from './config';
 
 async function bootstrap() {
   const logger = new Logger('Auth-MS');
@@ -11,7 +13,7 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
-        url: '',
+        url: `${envs.host}:${envs.port}`,
         package: [],
         protoPath: [],
         loader: {
