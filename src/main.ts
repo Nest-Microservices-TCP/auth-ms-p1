@@ -38,5 +38,11 @@ async function bootstrap() {
     new HttpExceptionsFilter(),
     new TypeORMExceptionsFilter(),
   );
+
+  await grpcApp.listen();
+
+  logger.log(
+    `Auth Microservice running with gRPC on ${envs.host}:${envs.port}`,
+  );
 }
 bootstrap();
