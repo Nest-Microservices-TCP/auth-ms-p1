@@ -3,6 +3,11 @@ import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
+import {
+  HttpExceptionsFilter,
+  TypeORMExceptionsFilter,
+} from './common/exceptions/filters';
+
 import { join } from 'path';
 import { envs } from './config';
 
@@ -27,6 +32,11 @@ async function bootstrap() {
         },
       },
     },
+  );
+
+  grpcApp.useGlobalFilters(
+    new HttpExceptionsFilter(),
+    new TypeORMExceptionsFilter(),
   );
 }
 bootstrap();
