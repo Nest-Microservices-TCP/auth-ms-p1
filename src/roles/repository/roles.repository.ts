@@ -16,8 +16,13 @@ export class RolesRepository implements IRolesRepository {
   }
 
   setQueryRunner(queryRunner: QueryRunner): void {
-    throw new Error('Method not implemented.');
+    if (queryRunner) {
+      this.rolesRepository = queryRunner.manager.getRepository(Role);
+    } else {
+      this.rolesRepository = this.defaultRepository;
+    }
   }
+
   find(): Promise<Role[]> {
     throw new Error('Method not implemented.');
   }
