@@ -4,6 +4,7 @@ import { CreateRoleRequest } from 'src/grpc/auth/roles.pb';
 import { Role } from '../entity/role.entity';
 import { DeleteResultResponse } from 'src/common/dto/response';
 import { IRolesRepository } from './interfaces/roles.repository.interface';
+import { EntityNotFoundException } from 'src/common/exceptions/custom';
 
 export class RolesRepository implements IRolesRepository {
   private rolesRepository: Repository<Role>;
@@ -27,9 +28,18 @@ export class RolesRepository implements IRolesRepository {
     return this.rolesRepository.find();
   }
 
-  findOne(id: string): Promise<Role> {
-    throw new Error('Method not implemented.');
+  async findOne(role_id: string): Promise<Role> {
+    const role = await this.rolesRepository.findOne({
+      where: { role_id },
+    });
+
+    if (!role) {
+      throw new EntityNotFoundException('role');
+    }
+
+    return role;
   }
+
   create(request: Partial<Role>): Role {
     throw new Error('Method not implemented.');
   }
