@@ -1,10 +1,20 @@
-import { QueryRunner, FindOptionsWhere } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, FindOptionsWhere, Repository } from 'typeorm';
 import { CreateRoleRequest } from 'src/grpc/auth/roles.pb';
 import { Role } from '../entity/role.entity';
 import { DeleteResultResponse } from 'src/common/dto/response';
 import { IRolesRepository } from './interfaces/roles.repository.interface';
 
 export class RolesRepository implements IRolesRepository {
+  private rolesRepository: Repository<Role>;
+
+  constructor(
+    @InjectRepository(Role)
+    private readonly defaultRepository: Repository<Role>,
+  ) {
+    this.rolesRepository = this.defaultRepository;
+  }
+
   setQueryRunner(queryRunner: QueryRunner): void {
     throw new Error('Method not implemented.');
   }
