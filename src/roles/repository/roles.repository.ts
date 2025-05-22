@@ -45,8 +45,9 @@ export class RolesRepository implements IRolesRepository {
   }
 
   save(request: CreateRoleRequest): Promise<Role> {
-    throw new Error('Method not implemented.');
+    return this.rolesRepository.save(request);
   }
+
   update(
     conditions: FindOptionsWhere<Role>,
     request: Partial<Role>,
