@@ -24,8 +24,9 @@ export class RolesRepository implements IRolesRepository {
   }
 
   find(): Promise<Role[]> {
-    throw new Error('Method not implemented.');
+    return this.rolesRepository.find();
   }
+
   findOne(id: string): Promise<Role> {
     throw new Error('Method not implemented.');
   }
