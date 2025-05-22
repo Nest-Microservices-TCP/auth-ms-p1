@@ -48,12 +48,17 @@ export class RolesRepository implements IRolesRepository {
     return this.rolesRepository.save(request);
   }
 
-  update(
+  async update(
     conditions: FindOptionsWhere<Role>,
     request: Partial<Role>,
   ): Promise<Role> {
-    throw new Error('Method not implemented.');
+    const role = await this.rolesRepository.findOne({ where: conditions });
+
+    Object.assign(role, request);
+
+    return this.rolesRepository.save(role);
   }
+
   remove(id: string): Promise<DeleteResultResponse> {
     throw new Error('Method not implemented.');
   }
